@@ -91,7 +91,7 @@ def image_link_ocr(image_link):
     i_w, i_h = image.size
     image = image.resize((i_w * 10, i_h *10), Image.ANTIALIAS)
     res = pytesseract.image_to_string(image)
-    res = res.replace('[|','0').replace('|]','0').replace('I','1').replace('l','1').replace('B','6').replace('!','1').replace('|','1').replace('Z','2').replace('H','9').replace('E','5').replace(" ",'').replace("\n",'').replace("\r",'')
+    res = res.replace('[|','0').replace('|]','0').replace('I','1').replace('l','1').replace('B','6').replace('!','1').replace('|','1').replace('Z','2').replace('H','9').replace('E','5')
     os.remove(image_link)
     logging.debug(res)
 
