@@ -30,9 +30,11 @@ Requirement
 
 - requests
 
-- BaiduOcr (https://github.com/Linusp/baidu_ocr)
+- [PIL](http://www.lfd.uci.edu/~gohlke/pythonlibs/#pil)
 
-- for 3.x, check https://github.com/cnbeining/baidu_ocr for now
+- [tesseract-ocr](http://code.google.com/p/tesseract-ocr/)
+
+- pytesserocr
 
 Author
 -----

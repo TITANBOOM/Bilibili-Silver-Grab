@@ -18,12 +18,12 @@ import re
 import logging
 import traceback
 try:
-    from baiduocr import BaiduOcr
+    import pytesseract
+    from PIL import Image
 except ImportError:
-    print('你需要BaiduOcr组件。')
-    print('请访问https://github.com/Linusp/baidu_ocr')
-    exit()
-
+    print '模块导入错误,请使用pip安装,pytesseract依赖以下库：'
+    print 'http://www.lfd.uci.edu/~gohlke/pythonlibs/#pil'
+    print 'http://code.google.com/p/tesseract-ocr/'
 
 # Dual support
 try:
@@ -87,16 +87,12 @@ def get_captcha_from_live(headers):
 
 #----------------------------------------------------------------------
 def image_link_ocr(image_link):
-    """link can be local file"""
-
-    API_KEY = 'c1ff362dc90585fed08e80460496eabd'
-    client = BaiduOcr(API_KEY, 'test')  # 使用个人免费版 API，企业版替换为 'online'
-
-    res = client.recog(image_link, service='Recognize', lang='CHN_ENG')
+    image = Image.open(image_link)
+    res = pytesseract.image_to_string(image)
     os.remove(image_link)
     logging.debug(res)
 
-    return res['retData'][0]['word']
+    return res
 
 #----------------------------------------------------------------------
 def send_heartbeat(headers):
@@ -153,7 +149,7 @@ def read_cookie(cookiepath):
 def captcha_wrapper(headers):
     """"""
     captcha_link = get_captcha_from_live(headers)
-    captcha_text = image_link_ocr(captcha_link).encode('utf-8')
+    captcha_text = image_link_ocr(captcha_link)
     answer = ''
     if safe_to_eval(captcha_text):
         try:
