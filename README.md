@@ -32,9 +32,7 @@ Requirement
 
 - [PIL](http://www.lfd.uci.edu/~gohlke/pythonlibs/#pil)
 
-- [tesseract-ocr](http://code.google.com/p/tesseract-ocr/)
-
-- pytesserocr
+- [SimpleBilibiliLiveOCR](https://github.com/chinuno-usami/SimpleBilibiliLiveOCR)
 
 Author
 -----

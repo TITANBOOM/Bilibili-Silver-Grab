@@ -18,12 +18,10 @@ import re
 import logging
 import traceback
 try:
-    import pytesseract
+    import biliocr
     from PIL import Image
 except ImportError:
-    print '模块导入错误,请使用pip安装,pytesseract依赖以下库：'
-    print 'http://www.lfd.uci.edu/~gohlke/pythonlibs/#pil'
-    print 'http://code.google.com/p/tesseract-ocr/'
+    pass
 
 # Dual support
 try:
@@ -87,14 +85,9 @@ def get_captcha_from_live(headers):
 
 #----------------------------------------------------------------------
 def image_link_ocr(image_link):
-    image = Image.open(image_link)
-    i_w, i_h = image.size
-    image = image.resize((i_w * 10, i_h *10), Image.ANTIALIAS)
-    res = pytesseract.image_to_string(image)
-    res = res.replace('[|','0').replace('|]','0').replace('I','1').replace('l','1').replace('B','6').replace('!','1').replace('|','1').replace('Z','2').replace('H','9').replace('E','5')
+    res = biliocr.procimg(image_link)
     os.remove(image_link)
     logging.debug(res)
-
     return res
 
 #----------------------------------------------------------------------
