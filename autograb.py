@@ -88,7 +88,10 @@ def image_link_ocr(image_link):
     res = biliocr.procimg(image_link)
     os.remove(image_link)
     logging.debug(res)
-    return res
+    if res:
+        return res
+    else:
+        return "a"
 
 #----------------------------------------------------------------------
 def send_heartbeat(headers):
