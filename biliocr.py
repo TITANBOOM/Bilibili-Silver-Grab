@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+from __future__ import division
 import sys
 from PIL import Image
-numdic={189:'7',274:'3',33:'-',146:'1',242:'2',220:'4',116:'+',320:'9',317:'9',315:'0',190:'7',319:'6',273:'3',281:'5',280:'5',318:'9',145:'1',}
+numdic={0.32:'4',0.52:'1',0.09:'-',0.44:'5',0.5:'9/6/8',0.17:'+',0.38:'2',0.3:'7',0.49:'0',0.43:'3'}
 def attrcode(im):
     """calculate attribute code of character
 
@@ -17,7 +18,7 @@ def attrcode(im):
         for h in xrange(i_h):
             if im.getpixel((w,h)) == 0:
                 count += 1
-    return count
+    return round(count/(i_w*i_h), 2)
 def splitimg(img):
     """split img to single character
 
@@ -46,7 +47,15 @@ def splitimg(img):
         numimg.append(img.crop((splitlist[0][index],0,splitlist[1][index],img_h)))
         code = attrcode(numimg[index])
         if code in numdic:
-            res+=numdic[code]
+            if numdic[code] == '9/6/8':
+                if numimg[index].getpixel((1,26))!=0 and numimg[index].getpixel((2,26))!=0 and numimg[index].getpixel((3,26))!=0:
+                    res += '9'
+                elif numimg[index].getpixel((15,16))!=0 and numimg[index].getpixel((14,16))!=0 and numimg[index].getpixel((13,16))!=0:
+                    res += '6'
+                else:
+                    res += '8'
+            else:
+                res+=numdic[code]
         else:
             return False
     return res
@@ -61,12 +70,11 @@ def procimg(img):
     """
     im = Image.open(img).convert("1")
     res = splitimg(im)
-    im.close();
+    im.close()
     return res
 
 def main(argv):
     if len(argv)!=2 :
-        print len(argv),argv
         print "Usage:python2",argv[0],"<image file>"
         print "or:",argv[0],"<image file>"
         exit()
