@@ -18,12 +18,10 @@ import re
 import logging
 import traceback
 try:
-    import pytesseract
+    import biliocr
     from PIL import Image
 except ImportError:
-    print '模块导入错误,请使用pip安装,pytesseract依赖以下库：'
-    print 'http://www.lfd.uci.edu/~gohlke/pythonlibs/#pil'
-    print 'http://code.google.com/p/tesseract-ocr/'
+    pass
 
 # Dual support
 try:
@@ -87,12 +85,13 @@ def get_captcha_from_live(headers):
 
 #----------------------------------------------------------------------
 def image_link_ocr(image_link):
-    image = Image.open(image_link)
-    res = pytesseract.image_to_string(image)
+    res = biliocr.procimg(image_link)
     os.remove(image_link)
     logging.debug(res)
-
-    return res
+    if res:
+        return res
+    else:
+        return "a"
 
 #----------------------------------------------------------------------
 def send_heartbeat(headers):
@@ -169,7 +168,7 @@ def usage():
     -c: Cookies:
     默认: ./bilicookies
     Cookie的位置
-    
+
     -l: 除错log
     默认: INFO
     INFO/DEBUG
