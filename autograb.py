@@ -185,9 +185,9 @@ def main(headers = {}):
     print('预计下一次领取需要{time_in_minutes}分钟，可以领取{silver}个银瓜子'.format(time_in_minutes = time_in_minutes, silver = silver))
     now = datetime.datetime.now()
     picktime = now + datetime.timedelta(minutes = time_in_minutes) + datetime.timedelta(seconds = 10)
-    while (picktime - datetime.datetime.now()).seconds / 60 > 0 and ((picktime - datetime.datetime.now()).seconds / 60) <= 10:
+    while (picktime - datetime.datetime.now()).seconds // 60 > 0 and ((picktime - datetime.datetime.now()).seconds // 60) <= 10:
         if not send_heartbeat(headers):
-            print('还剩下'+str((picktime - datetime.datetime.now()).seconds / 60)+'分钟……')
+            print('还剩下'+str((picktime - datetime.datetime.now()).seconds // 60)+'分钟……')
             time.sleep(60)
     while not award_requests(headers):
         time.sleep(10)
