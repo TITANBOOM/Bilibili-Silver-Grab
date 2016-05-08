@@ -14,8 +14,8 @@ def attrcode(im):
     """
     i_w , i_h = im.size
     count = 0
-    for w in xrange(i_w):
-        for h in xrange(i_h):
+    for w in range(i_w):
+        for h in range(i_h):
             if im.getpixel((w,h)) == 0:
                 count += 1
     return round(count/(i_w*i_h), 2)
@@ -31,9 +31,9 @@ def splitimg(img):
     flag = False
     numimg = []
     splitlist = [[],[]]
-    for x in xrange(img_w):
+    for x in range(img_w):
         flag_line = False
-        for  y in xrange(img_h):
+        for  y in range(img_h):
             if img.getpixel((x,y))!= 255:
                 flag_line=True
                 if flag == False:
@@ -43,7 +43,7 @@ def splitimg(img):
                 splitlist[1].append(x)
                 flag = True
                 flag = False
-    for index in xrange(len(splitlist[0])):
+    for index in range(len(splitlist[0])):
         numimg.append(img.crop((splitlist[0][index],0,splitlist[1][index],img_h)))
         code = attrcode(numimg[index])
         if code in numdic:
@@ -75,14 +75,14 @@ def procimg(img):
 
 def main(argv):
     if len(argv)!=2 :
-        print "Usage:python2",argv[0],"<image file>"
-        print "or:",argv[0],"<image file>"
+        print("Usage:python2",argv[0],"<image file>")
+        print("or:",argv[0],"<image file>")
         exit()
     res =  procimg(argv[-1])
     if res:
-        print res
+        print(res)
     else:
-        print "failed"
+        print("failed")
 
 if __name__ == "__main__":
     main(sys.argv)
